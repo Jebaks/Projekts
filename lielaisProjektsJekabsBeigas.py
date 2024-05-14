@@ -5,9 +5,6 @@ def stop(x): #Funkcija lai apstādinātu programu
         print('Programma tiek apstādināta, jauku dienu!')
         exit()
 
-def atkartojas(apskata):
-    return bool(len(apskata) != len(set(apskata)))
-
 def sajaukts(sajauktais): #Funkcija sajauc sarakstu izmantojot importu "random"
  
     jauns = sorted(sajauktais, key=lambda x: random.random())
@@ -17,7 +14,7 @@ def ievade(): #Funkcija kurā lietotājs ievada .txt faila nosaukumu, kurā atro
     global turpinat
     global fails
     try:
-        nosaukums = input('Ievadiet jūsu faila nosaukumu(bez ".txt"): ')
+        nosaukums = input('Ievadiet jūsu faila nosaukumu: ')
         stop(nosaukums)
         parbaude = nosaukums.split('.')
         if parbaude[1] == 'txt':
@@ -63,12 +60,23 @@ saraksts = ''.join(saraksts)
 saraksts = saraksts.split('\n')
 jaukt = sajaukts(saraksts) #Jauktais saraksts
 
-
+def atkartojas(var, nevar):
+    for x in var:
+        for y in nevar:
+            if x in y:
+                print('Skolēni nevar būt un nebūt vienā grupā!')
+                return True
+            elif y in x:
+                print('Skolēni nevar būt un nebūt vienā grupā!')
+                return True
+            else:
+                return False
 
 def specifikacija(): #Funkcija kurā tiek apkopota visa ievadītā informācija no lietotāja
 
     while True:
         skaits = input('Cik grupās Jūs vēlaties sadalīt?(vesels skaitlis): ')
+        stop(skaits)
         if skaits.isdigit():
             break
         else:
@@ -85,22 +93,22 @@ def specifikacija(): #Funkcija kurā tiek apkopota visa ievadītā informācija 
         nevar = []
         var = []
 
-        nevar_grupa = input('Ievadiet skolēnu kārtas numurus, kuri nevar būt vienā grupā, atdalot tos ar komatu, ja ir vairākas skolēnu kopas, tad katru nākamo kopu atdala ar semikolu(1,3;5,2): ')
-        stop(nevar_grupa)
-        nevar = nevar_grupa.split(';')
+        atkartot = True
 
         while True:
-            var_grupa = input('Ievadiet skolēnu kārtas numurus, kuriem jābūt vienā grupā, atdalot tos ar komatu, ja ir vairākas skolēnu kopas, tad katru nākamo kopu atdala ar semikolu(2,3;4,5): ')
-            stop(var_grupa)
-            parbaude = re.split(',|;', var_grupa)
-            if atkartojas(parbaude) == False:
-                break
-            else:
-                print('Viens skolēns nevar būt divās grupās!')
-                continue
-        var = var_grupa.split(';')
-            
 
+            if atkartot == True:
+                nevar_grupa = input('Ievadiet skolēnu kārtas numurus, kuri nevar būt vienā grupā, atdalot tos ar komatu, ja ir vairākas skolēnu kopas, tad katru nākamo kopu atdala ar semikolu(1,3;5,2): ')
+                stop(nevar_grupa)
+                nevar = nevar_grupa.split(';')
+
+        
+                var_grupa = input('Ievadiet skolēnu kārtas numurus, kuriem jābūt vienā grupā, atdalot tos ar komatu, ja ir vairākas skolēnu kopas, tad katru nākamo kopu atdala ar semikolu(2,3;4,5): ')
+                stop(var_grupa)
+                var = var_grupa.split(';')
+                atkartot = atkartojas(var, nevar)
+            else:
+                break     
     elif jauta1 == 'nē':
         var = 0
         nevar = 0
